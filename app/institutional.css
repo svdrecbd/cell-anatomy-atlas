@@ -389,4 +389,4 @@ body:has(.compare-drawer) { padding-bottom: 98px; }
 
 body:has(.institutional-portal) .institutional-footer nav { display: none; }
 
-.institutional-funding { max-width: 72ch; margin: 12px auto; font-family: Palatino, "Palatino Linotype", "Book Antiqua", "URW Palladio L", serif; font-size: .8rem; line-height: 1.45; color: inherit; }
+.institutional-footer .institutional-funding { max-width: 90ch; margin: 8px auto; font-family: Palatino, "Palatino Linotype", "Book Antiqua", "URW Palladio L", serif; font-size: .75rem; line-height: 1.4; color: inherit; }
