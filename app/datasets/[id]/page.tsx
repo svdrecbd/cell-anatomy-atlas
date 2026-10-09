@@ -13,6 +13,8 @@ import { CompareToggle } from "../../../components/compare-toggle";
 import { normalizeSearchParams, type RouteSearchParams } from "../../../lib/route-props";
 import { findDataset } from "../../../lib/corpus";
 import { createPageMetadata } from "../../../lib/search-metadata";
+import { StructuredData } from "../../../components/structured-data";
+import { createDatasetStructuredData } from "../../../lib/structured-data";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -81,6 +83,7 @@ export default async function DatasetPage({
 
   return (
     <main className="dataset-document">
+      <StructuredData identifier="cell-anatomy-dataset-metadata" value={createDatasetStructuredData(dataset)} />
       <div style={{ marginBottom: 24 }}>
         <Link prefetch={false} href={returnHref} className="muted" style={{ textDecoration: "underline" }}>
           ← Back to corpus
