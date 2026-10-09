@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "Please cite Cell Anatomy Atlas and the underlying scoping study."
+title: "Cell Anatomy Atlas"
+type: software
+version: 0.1.0
+date-released: 2026-10-09
+license: MIT
+url: "https://cellanatomy.org"
+repository-code: "https://github.com/svdrecbd/cell-anatomy-atlas"
+authors:
+  - family-names: Escobedo
+    given-names: Salvador
+  - family-names: Mirvis
+    given-names: Mary
+references:
+  - type: article
+    title: "A scoping study of the whole-cell imaging literature as a foundation for the emerging field of cell anatomy"
+    authors:
+      - family-names: Mirvis
+        given-names: Mary
+      - family-names: Weingard
+        given-names: Brooke
+      - family-names: Goodman
+        given-names: Steven N.
+      - family-names: Marshall
+        given-names: Wallace F.
+    journal: "BMC Biology"
+    volume: 24
+    start: 91
+    year: 2026
+    doi: "10.1186/s12915-026-02556-0"

@@ -1,0 +1,12 @@
+# Private configuration and credentials must never become public assets.
+**/.env
+**/.env.*
+**/.dev.vars
+**/.dev.vars.*
+**/.git
+**/.ssh
+**/.git-credentials
+**/*.key
+**/*.pem
+**/wrangler.toml
+**/wrangler.jsonc

@@ -1,0 +1,44 @@
+.email-signup-dialog {
+  width: min(440px, calc(100vw - 40px)); max-width: 440px;
+  max-height: calc(100dvh - 40px); margin: auto; padding: 0;
+  border: 1px solid #a12622; border-radius: 0; background: #f7f4ed;
+  color: #191817; box-shadow: 0 16px 60px #0006;
+  font-family: Palatino, "Palatino Linotype", "Book Antiqua", "URW Palladio L", serif;
+  line-height: 1.5; overflow: auto; overscroll-behavior: contain;
+}
+.email-signup-dialog:not([open]) { display: none; }
+.email-signup-dialog::backdrop { background: rgb(0 0 0 / .72); }
+.email-signup-dialog *, .email-signup-panel * { box-sizing: border-box; }
+.email-signup-close { position: absolute; top: 10px; right: 12px; z-index: 1; width: 36px; height: 36px; border: 0; padding: 0; color: #6f251e; background: transparent; font: inherit; font-size: 1.7rem; line-height: 1; cursor: pointer; }
+.email-signup-close:hover { color: #a12622; }
+.email-signup-content { padding: 40px 24px 24px; }
+.email-signup-content h2 { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 2px solid #a12622; color: #7d251d; font-size: 1.6rem; font-weight: 400; line-height: 1.15; }
+.email-signup-content > p { margin: 0 0 16px; font-size: .95rem; }
+.email-signup-dialog .email-signup-form { gap: 12px; }
+.email-signup-form { display: grid; gap: 15px; max-width: 100%; }
+.email-signup-name-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.email-signup-form label { display: grid; gap: 5px; font-size: .95rem; color: #373029; }
+.email-signup-form label > span { display: contents; }
+.email-signup-form input:not([hidden]) { width: 100%; min-width: 0; min-height: 40px; padding: 8px 10px; border: 1px solid #b5a997; border-radius: 0; background: #fffdf9; color: #191817; font: inherit; font-size: 1rem; line-height: 1.35; }
+.email-signup-form input:focus-visible { outline: 2px solid #a12622; outline-offset: 2px; }
+.email-signup-dialog button:focus-visible, .email-signup-form button:focus-visible, .email-signup-form a:focus-visible { outline: 2px solid #a12622; outline-offset: 4px; }
+.email-signup-form input:disabled { background: #ece7de; }
+.email-signup-privacy { margin: 2px 0 0; font-size: .8rem; line-height: 1.55; color: #64564a; }
+.email-signup-privacy a { color: #163c74; text-decoration: underline; text-underline-offset: 3px; }
+.email-signup-actions { margin-top: 3px; }
+.email-signup-submit { min-height: 42px; padding: 9px 20px; border: 1px solid #6f251e; border-radius: 0; background: #6f251e; color: #fff8e9; font: inherit; font-size: 1rem; line-height: 1.35; cursor: pointer; }
+.email-signup-submit:hover { background: #8a3026; border-color: #8a3026; }
+.email-signup-submit:disabled { opacity: .7; cursor: default; }
+.email-signup-response { margin: 0; color: #426148; font-size: .9rem; }
+.email-signup-error { color: #8a251d; }
+.email-signup-panel { max-width: 700px; padding: 22px 26px; border: 1px solid #d0c9c1; border-top: 3px solid #a12622; background: #f7f4ed; }
+.email-signup-panel > p { margin: 0 0 18px; }
+.email-signup-panel h2 { margin-top: 0; }
+@media (max-width: 580px) {
+  .email-signup-dialog { width: calc(100vw - 24px); max-height: calc(100dvh - 24px); }
+  .email-signup-content { padding: 40px 20px 24px; }
+  .email-signup-form { gap: 12px; }
+  .email-signup-name-fields { gap: 12px; }
+  .email-signup-submit { width: 100%; }
+  .email-signup-panel { padding: 18px; }
+}

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 620">
+<title>Safety–Capability Coupling cover illustration</title>
+<desc>Circular sections, shortened rectangular frames, and perspective construction lines.</desc>
+<g fill="none" stroke="#a12622" stroke-linecap="round" stroke-linejoin="round">
+<polyline points="43.250,112.000 790.750,261.750" stroke-width="2.025"/>
+<polyline points="293.250,112.000 790.750,261.750" stroke-width="2.025"/>
+<polyline points="43.250,534.000 790.750,261.750" stroke-width="2.025"/>
+<polyline points="293.250,534.000 790.750,261.750" stroke-width="2.025"/>
+<polyline points="168.250,323.000 790.750,261.750" stroke-width="2.025"/>
+<circle cx="168.250" cy="323.000" r="125.000" stroke-width="2.5875"/>
+<polyline points="43.250,112.000 293.250,112.000 293.250,534.000 43.250,534.000 43.250,112.000" stroke-width="1.8"/>
+<polyline points="168.250,112.000 168.250,534.000" stroke-width="1.8"/>
+<polyline points="168.250,534.000 288.250,534.000" stroke-width="1.6875"/>
+<circle cx="386.529" cy="301.523" r="81.169" stroke-width="2.5875"/>
+<polyline points="305.360,164.510 467.698,164.510 467.698,438.536 305.360,438.536 305.360,164.510" stroke-width="1.8"/>
+<polyline points="386.529,164.510 386.529,438.536" stroke-width="1.8"/>
+<polyline points="386.529,438.536 506.529,438.536" stroke-width="1.6875"/>
+<circle cx="525.856" cy="287.814" r="53.191" stroke-width="2.5875"/>
+<polyline points="472.665,198.027 579.048,198.027 579.048,377.601 472.665,377.601 472.665,198.027" stroke-width="1.8"/>
+<polyline points="525.856,198.027 525.856,377.601" stroke-width="1.8"/>
+<polyline points="525.856,377.601 645.856,377.601" stroke-width="1.6875"/>
+<circle cx="614.803" cy="279.062" r="35.331" stroke-width="2.5875"/>
+<polyline points="579.472,219.424 650.134,219.424 650.134,338.700 579.472,338.700 579.472,219.424" stroke-width="1.8"/>
+<polyline points="614.803,219.424 614.803,338.700" stroke-width="1.8"/>
+<polyline points="614.803,338.700 734.803,338.700" stroke-width="1.6875"/>
+<circle cx="676.067" cy="273.034" r="23.029" stroke-width="2.5875"/>
+<polyline points="653.038,234.162 699.096,234.162 699.096,311.907 653.038,311.907 653.038,234.162" stroke-width="1.8"/>
+<polyline points="676.067,234.162 676.067,311.907" stroke-width="1.8"/>
+<polyline points="676.067,311.907 777.000,311.907" stroke-width="1.6875"/>
+</g>
+</svg>

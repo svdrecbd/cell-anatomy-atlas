@@ -1,0 +1,350 @@
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { ApiFailurePanel } from "../../../components/api-failure-panel";
+import { DegradedStatusBanner } from "../../../components/degraded-status-banner";
+import { getDataset, getSimilarDatasets } from "../../../lib/api";
+import { isNotFoundApiError } from "../../../lib/api-errors";
+import type { DatasetRecord } from "../../../lib/types";
+import { publicationHref, publicDataHref, publicDataLabel, studyCitationLabel, voxelSizeLabel } from "../../../lib/display";
+import { FacetBar } from "../../../components/facet-bar";
+import { CitationButton } from "../../../components/citation-button";
+import { corpusReturnHref, datasetHref } from "../../../lib/corpus-navigation";
+import { CompareToggle } from "../../../components/compare-toggle";
+import { normalizeSearchParams, type RouteSearchParams } from "../../../lib/route-props";
+import { findDataset } from "../../../lib/corpus";
+import { createPageMetadata } from "../../../lib/search-metadata";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const dataset = findDataset(id);
+  if (!dataset) notFound();
+  return createPageMetadata(
+    `/datasets/${encodeURIComponent(dataset.dataset_id)}`,
+    `${dataset.cell_type}: ${dataset.modality} Dataset (${dataset.year}) | Cell Anatomy`,
+    `${dataset.cell_type} whole-cell imaging from ${studyCitationLabel(dataset)}. ${dataset.modality}; ${voxelSizeLabel(dataset)}; ${dataset.sample_size ?? "unreported"} cells. Explore organelles, metrics, and source links.`
+  );
+}
+
+export default async function DatasetPage({
+  params, searchParams
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<RouteSearchParams>;
+}) {
+  const { id } = await params;
+  const parameters = normalizeSearchParams(await searchParams);
+  const returnHref = corpusReturnHref(parameters.return_to);
+  let dataset: DatasetRecord;
+
+  try {
+    dataset = await getDataset(id);
+  } catch (error) {
+    if (isNotFoundApiError(error)) {
+      notFound();
+    }
+
+    return (
+      <main className="dataset-document">
+        <div style={{ marginBottom: 24 }}>
+          <Link prefetch={false} href={returnHref} className="muted" style={{ textDecoration: "underline" }}>
+            ← Back to corpus
+          </Link>
+        </div>
+        <section className="hero">
+          <h1>Dataset detail unavailable.</h1>
+          <p>
+            The dataset record could not be loaded right now, so the page is showing a degraded state.
+          </p>
+        </section>
+        <ApiFailurePanel
+          error={error}
+          context={`dataset ${id}`}
+          page="dataset-detail"
+          actionHref="/corpus"
+          actionLabel="Return to corpus"
+        />
+      </main>
+    );
+  }
+
+  let similar: DatasetRecord[] = [];
+  let similarError: unknown = null;
+
+  try {
+    similar = await getSimilarDatasets(id);
+  } catch (error) {
+    similarError = error;
+  }
+
+  const dataHref = publicDataHref(dataset);
+  const paperHref = publicationHref(dataset);
+
+  return (
+    <main className="dataset-document">
+      <div style={{ marginBottom: 24 }}>
+        <Link prefetch={false} href={returnHref} className="muted" style={{ textDecoration: "underline" }}>
+          ← Back to corpus
+        </Link>
+      </div>
+
+      <section className="hero">
+        <div className="dataset-identity-line">
+          <div className="kicker" style={{ margin: 0 }}>{dataset.cell_type}</div>
+          <div className="muted" style={{ fontSize: "0.9rem" }}>
+            <em>{dataset.species}</em>
+          </div>
+          {dataset.included_status === "borderline" && (
+            <span className="pill badge-borderline">Borderline Study</span>
+          )}
+        </div>
+        <h1>{dataset.title}</h1>
+        <div style={{ display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
+          <p className="muted" style={{ margin: 0 }}>
+            <strong>
+              {paperHref ? (
+                <a
+                  href={paperHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "inherit", textDecoration: "underline" }}
+                >
+                  {studyCitationLabel(dataset)}
+                </a>
+              ) : (
+                studyCitationLabel(dataset)
+              )}
+            </strong>
+            {dataset.publication_pmid ? ` · PMID ${dataset.publication_pmid}` : ""}
+          </p>
+          <div className="document-actions">
+            <Link prefetch={false}
+              href={`/corpus?cell_type=${encodeURIComponent(dataset.cell_type)}`}
+              className="pill pill-link"
+              style={{ fontSize: "0.8rem", textDecoration: "none" }}
+            >
+              Find datasets with same cell type
+            </Link>
+            <CitationButton dataset={dataset} />
+            <CompareToggle id={dataset.dataset_id} returnHref={returnHref} />
+            <Link prefetch={false} href={`/plan?organelles=${encodeURIComponent(dataset.organelles.join(","))}&cell_type=${encodeURIComponent(dataset.cell_type)}&return_to=${encodeURIComponent(returnHref)}&edit=true`}>Find experimental precedent</Link>
+          </div>
+        </div>
+      </section>
+
+      {similarError ? (
+        <DegradedStatusBanner
+          page="dataset-detail"
+          title="Dataset Detail Degraded"
+          issues={[
+            {
+              label: "Similar datasets",
+              context: "similar dataset recommendations",
+              error: similarError
+            }
+          ]}
+        />
+      ) : null}
+
+      <div className="panel-grid two dataset-reference-grid" style={{ marginTop: 32 }}>
+        <div className="summary-grid">
+          {dataset.notes && (
+            <section className="panel record-note">
+              <h2 className="section-title">Curation Notes</h2>
+              <p style={{ fontSize: "1.1rem", lineHeight: 1.6 }}>{dataset.notes}</p>
+              {dataset.included_status === "borderline" && (
+                <p className="muted" style={{ fontSize: "0.9rem", marginTop: 12 }}>
+                  * This study is categorized as <strong>Borderline</strong> because it met some but not all of the
+                  strict inclusion criteria for the primary corpus (e.g., partial volume or unclear resolution reporting).
+                </p>
+              )}
+            </section>
+          )}
+
+          <section className="panel">
+            <h2 className="section-title">Technical Specs</h2>
+            <div className="stat-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+              <div>
+                <div className="muted" style={{ fontSize: "0.8rem", textTransform: "uppercase" }}>Modality</div>
+                <div style={{ fontSize: "1.1rem" }}>{dataset.modality}</div>
+              </div>
+              <div>
+                <div className="muted" style={{ fontSize: "0.8rem", textTransform: "uppercase" }}>Voxel Size</div>
+                <div style={{ fontSize: "1.1rem" }}>
+                  {voxelSizeLabel(dataset)}
+                </div>
+              </div>
+              <div>
+                <div className="muted" style={{ fontSize: "0.8rem", textTransform: "uppercase" }}>Sample Size</div>
+                <div style={{ fontSize: "1.1rem" }}>{dataset.sample_size ?? "Unknown"}</div>
+              </div>
+              <div>
+                <div className="muted" style={{ fontSize: "0.8rem", textTransform: "uppercase" }}>Whole-Cell Boundary</div>
+                <div style={{ fontSize: "1.1rem" }}>
+                  {dataset.whole_cell_boundary_confirmed === "yes"
+                    ? "Confirmed"
+                    : dataset.whole_cell_boundary_confirmed === "no"
+                      ? "Not confirmed"
+                      : "Unclear"}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {(dataset.comparator_class || dataset.comparator_detail) && (
+            <section className="panel">
+              <h2 className="section-title">Comparators / Conditions</h2>
+              <div className="stat-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+                {dataset.comparator_class && (
+                  <div>
+                    <div className="muted" style={{ fontSize: "0.8rem", textTransform: "uppercase" }}>Comparator Class</div>
+                    <div style={{ fontSize: "1.1rem" }}>{dataset.comparator_class}</div>
+                  </div>
+                )}
+                {dataset.comparator_detail && (
+                  <div>
+                    <div className="muted" style={{ fontSize: "0.8rem", textTransform: "uppercase" }}>Comparator Detail</div>
+                    <div style={{ fontSize: "1.1rem" }}>{dataset.comparator_detail}</div>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          <section className="panel">
+            <h2 className="section-title">Provenance</h2>
+            <p className="muted" style={{ marginBottom: 16 }}>
+              This record was ingested from the <em>Cell Anatomy Scoping Review</em> corpus.
+            </p>
+            <div className="stat-row">
+              {dataset.publication_pmid && (
+                <a
+                  href={`https://pubmed.ncbi.nlm.nih.gov/${dataset.publication_pmid}/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pill pill-link"
+                >
+                  PMID {dataset.publication_pmid}
+                </a>
+              )}
+              {dataset.source_publication_url && (
+                <a
+                  href={dataset.source_publication_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button"
+                  style={{ textDecoration: "none", textAlign: "center" }}
+                >
+                  View Publication
+                </a>
+              )}
+              {dataset.public_data_status !== "none" && (
+                dataHref ? (
+                  <a
+                    href={dataHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pill pill-link"
+                  >
+                    {publicDataLabel(dataset)}
+                  </a>
+                ) : (
+                  <div className="pill" style={{ background: "var(--foreground)", color: "var(--background)", borderColor: "var(--foreground)" }}>
+                    {publicDataLabel(dataset)}
+                  </div>
+                )
+              )}
+            </div>
+            {(dataset.public_locator_urls?.length ?? 0) > 0 && (
+              <div style={{ marginTop: 14, display: "grid", gap: 8 }}>
+                <div className="kicker" style={{ margin: 0 }}>Public Data Links</div>
+                {dataset.public_locator_urls?.map((url) => (
+                  <a
+                    key={url}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="muted"
+                    style={{ textDecoration: "underline", wordBreak: "break-word" }}
+                  >
+                    {url}
+                  </a>
+                ))}
+              </div>
+            )}
+          </section>
+        </div>
+
+        <aside style={{ display: "grid", gap: 16 }}>
+          {similar.length > 0 && (
+            <section className="panel">
+              <h2 className="section-title">Similar Records</h2>
+              <p className="muted" style={{ margin: "0 0 12px", lineHeight: 1.6 }}>
+                These recommendations are based on shared metadata and biological overlap signals, not a claim of direct equivalence.
+              </p>
+              <div style={{ display: "grid", gap: "12px" }}>
+                {similar.map((s) => (
+                  <Link prefetch={false} key={s.dataset_id} href={datasetHref(s.dataset_id, returnHref)} style={{ textDecoration: "none", display: "block", borderBottom: "1px solid var(--border)", paddingBottom: "8px" }}>
+                    <div className="muted" style={{ fontSize: "0.8rem", textTransform: "uppercase" }}>{s.cell_type}</div>
+                    <div style={{ fontWeight: 500 }}>{s.title}</div>
+                    <div className="muted" style={{ fontSize: "0.8rem", marginTop: 4 }}>
+                      {studyCitationLabel(s)}
+                      {s.publication_pmid ? ` · PMID ${s.publication_pmid}` : ""}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+          {similarError ? (
+            <ApiFailurePanel
+              error={similarError}
+              context="similar dataset recommendations"
+              page="dataset-detail"
+              title="Similar-dataset panel unavailable"
+              compact
+            />
+          ) : null}
+
+          <FacetBar
+            title="Organelles Captured"
+            items={dataset.organelles}
+          />
+          <FacetBar
+            title="Metric Families"
+            items={dataset.metric_families}
+          />
+          <details className="document-disclosure"><summary>Original source terminology</summary><p>{dataset.source_organelles?.join(", ")}</p><p className="muted">Search categories consolidate aliases and formatting errors. The imported source record is retained unchanged.</p></details>
+          {dataset.organelle_pairs.length > 0 && (
+            <details className="document-disclosure record-pair-disclosure">
+              <summary>{dataset.organelle_pairs.length} derived organelle pairs</summary>
+              <FacetBar
+                title="Derived Organelle Pairs"
+                items={dataset.organelle_pairs.map((p) => ({
+                  label: p,
+                  href: `/corpus?pair=${encodeURIComponent(p)}`
+                }))}
+                description="These pairings are generated from the organelles listed on this record."
+              />
+              <p className="muted" style={{ margin: "-4px 0 0", fontSize: "0.85rem", lineHeight: 1.5 }}>
+                They should not be read as proof that the study explicitly measured contact sites or
+                inter-organelle interactions.
+              </p>
+            </details>
+          )}
+          <section className="panel">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+              <h2 className="section-title">Metadata Completeness</h2>
+              <Link prefetch={false} href="/guide" className="muted" style={{ fontSize: "0.75rem", textDecoration: "underline" }}>How It&apos;s Derived</Link>
+            </div>
+            <div style={{ fontSize: "2.5rem", fontWeight: 300 }}>
+              {Math.round(dataset.metadata_completeness_score * 100)}%
+            </div>
+            <p className="muted" style={{ fontSize: "0.9rem", marginTop: 8 }}>
+              Completeness score based on standardized reporting of modality, resolution, and curation status.
+            </p>
+          </section>
+        </aside>
+      </div>
+    </main>
+  );
+}
