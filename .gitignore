@@ -18,3 +18,6 @@ private/
 beta-signups.csv
 dataset-direct-arrivals.csv
 .DS_Store
+
+# Next.js generates environment declarations during type generation and builds.
+next-env.d.ts
