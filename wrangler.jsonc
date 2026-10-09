@@ -25,6 +25,19 @@
   "version_metadata": {
     "binding": "CF_VERSION_METADATA"
   },
+  "triggers": { "crons": ["*/5 * * * *"] },
+  "ratelimits": [
+    {
+      "name": "SIGNUP_NETWORK_RATE_LIMITER",
+      "namespace_id": "2026100901",
+      "simple": { "limit": 30, "period": 60 }
+    },
+    {
+      "name": "SIGNUP_EMAIL_RATE_LIMITER",
+      "namespace_id": "2026100902",
+      "simple": { "limit": 3, "period": 60 }
+    }
+  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,

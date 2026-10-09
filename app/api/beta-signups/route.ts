@@ -1,4 +1,4 @@
-import { readBoundedJsonObject, RequestValidationError } from "../../../lib/request-security";
+import { enforceSignupRateLimits, enforceSignupSubmissionBudget, readBoundedJsonObject, RequestValidationError, validateSignupRequest } from "../../../lib/request-security";
 
 export const dynamic = "force-dynamic";
 
@@ -33,10 +33,19 @@ function json(detail: string, status: number) {
 export async function POST(request: Request) {
   let payload: SignupPayload;
   try {
+    validateSignupRequest(request);
     payload = await readBoundedJsonObject(request, MAX_BODY_BYTES);
+    const { env } = await import("cloudflare:workers");
+    await enforceSignupRateLimits(request, payload, env);
+    await enforceSignupSubmissionBudget(payload, env.SIGNUPS_DB);
   } catch (error) {
-    if (error instanceof RequestValidationError) return json(error.message, error.statusCode);
-    return json("Invalid JSON payload.", 400);
+    if (error instanceof RequestValidationError) {
+      const response = json(error.message, error.statusCode);
+      if (error.statusCode === 429) response.headers.set("Retry-After", "60");
+      return response;
+    }
+    console.error(JSON.stringify({ event: "signup_protection_unavailable" }));
+    return json("The signup could not be saved. Retry later.", 503);
   }
 
   try {

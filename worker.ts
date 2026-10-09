@@ -1,7 +1,7 @@
 import vinext from "vinext/server/fetch-handler";
 import { correctLegacyCorpusParameters } from "./lib/corpus-parameters";
 import { isFilteredResultsUrl } from "./lib/search-metadata";
-import { isPrivateResourcePath, permittedRequestMethods } from "./lib/request-security";
+import { isPrivateResourcePath, permittedRequestMethods, purgeExpiredSignupCounters } from "./lib/request-security";
 import { recordDatasetArrival } from "./lib/dataset-arrivals";
 
 const canonicalHost = "cellanatomy.org";
@@ -54,5 +54,8 @@ export default {
     if (isFilteredResultsUrl(url)) secured.headers.set("X-Robots-Tag", "noindex, follow");
     recordDatasetArrival(request, secured, env.SIGNUPS_DB, context);
     return secured;
+  },
+  async scheduled(controller, env, context) {
+    context.waitUntil(purgeExpiredSignupCounters(env.SIGNUPS_DB));
   }
 } satisfies ExportedHandler<Cloudflare.Env>;

@@ -23,7 +23,7 @@
     "verify:corpus-mechanics": "node scripts/verify-corpus-mechanics.mjs",
     "measure:network": "node scripts/measure-page-payloads.mjs http://127.0.0.1:3100 review/network-after.json",
     "verify:network-budget": "npm run measure:network && node scripts/verify-network-budget.mjs",
-    "test": "node --experimental-strip-types --test scripts/test-request-security.mjs scripts/test-dataset-arrivals.mjs"
+    "test": "node --experimental-strip-types --test scripts/test-request-security.mjs scripts/test-dataset-arrivals.mjs scripts/test-signup-submission-limits.mjs"
   },
   "dependencies": {
     "@vinext/cloudflare": "^1.0.0-beta.7",
@@ -50,6 +50,10 @@
     "@rolldown/binding-linux-x64-gnu": "^1.2.7",
     "lightningcss-darwin-arm64": "^1.33.0",
     "lightningcss-linux-x64-gnu": "^1.33.0"
+  },
+  "overrides": {
+    "sharp": "0.35.5",
+    "source-map-js": "1.2.2"
   },
   "type": "module",
   "license": "MIT"
