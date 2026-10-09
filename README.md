@@ -1,6 +1,8 @@
 # Cell Anatomy Atlas
 
-Cell Anatomy Atlas is a free research resource for discovering and comparing whole-cell imaging studies: https://cellanatomy.org. Scientific leadership is provided by Mary Mirvis; software development is led by Salvador Escobedo.
+Cell Anatomy Atlas is a free research resource for discovering and comparing whole-cell imaging studies: https://cellanatomy.org. 
+
+Scientific leadership is provided by Mary Mirvis, PhD; software development is led by Salvador Escobedo.
 
 The atlas extends the corpus assembled by Mirvis, Weingard, Goodman, and Marshall in [BMC Biology (2026)](https://doi.org/10.1186/s12915-026-02556-0). This release contains the 129-record public corpus exported from the live atlas on October 9, 2026, including original terminology, subsequent studies, public-data links, and curation annotations.
 
@@ -54,19 +56,3 @@ Use `npm run signups:export -- --remote --output=private/beta-signups.csv` to ex
 ## Licensing and citation
 
 Software is licensed under MIT. Corpus metadata is licensed under CC BY 4.0 with source attribution; see `DATA_LICENSE.md`. Linked publications and image datasets retain their own terms. Cite the underlying scoping study and this software; `CITATION.cff` supplies citation metadata. CAOS is maintained separately and is not part of this release.
-
-## Funding
-
-This project was funded by the UCSF Program for Breakthrough Biomedical Research, funded in part by the Sandler Foundation.
-
-This acknowledgment follows the [PBBR award policy](https://pbbr.ucsf.edu/awards/award-policies). The atlas also received support from the National Institute of General Medical Sciences of the National Institutes of Health under award R35GM130327. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
-
-The project team confirmed that both PBBR/Sandler and NIH support contributed to site expenses. NIH's current acknowledgment guidance also calls for project funding amounts and percentages where applicable; those accounting details must come from the award recipient and are not inferred from the public grant record. See https://grants.nih.gov/policy-and-compliance/policy-topics/federal-funding.
-
-## Production funding publication — October 9, 2026
-
-The approved funding footer and About acknowledgment were published to cellanatomy.org while retaining the existing 129-record corpus, application modules, newsletter collector, dataset-arrival counter, assets, and Cloudflare bindings. The gray-and-blue NIH emblem matches the height of the three funding lines; the group credit follows with a 32-pixel gap.
-
-`scripts/prepare-funding-acknowledgment-deployment.mjs` prepares the approved components against a downloaded production module directory. It identifies the reviewed footer and funding section in that baseline, preserves the rest of the application, and packages the stylesheet and emblem as versioned Worker resources. It stops when the expected baseline structure is absent. `deployment/funding-acknowledgment-worker.js` serves these resources and appends the stylesheet to rendered documents. This operator workflow is separate from the standalone build instructions above and requires authorized Cloudflare access.
-
-Validation confirmed an exactly unchanged public corpus export, local signup persistence, one counted direct arrival, retained private-path and method restrictions, correct live emblem bytes, and matching live typography and spacing. The GitHub repositories remain private pending separate publication approval.
