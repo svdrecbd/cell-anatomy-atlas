@@ -11,6 +11,8 @@ test("structured metadata preserves publication identity and data availability a
     assert.equal(metadata.identifier, record.dataset_id);
     assert.equal(metadata.name, record.title);
     assert.equal(metadata.citation.name, record.paper_title);
+    assert.equal(metadata.citation["@type"], "CreativeWork");
+    assert.equal(metadata.citation.additionalType, "https://schema.org/ScholarlyArticle");
     assert.equal(metadata.measurementTechnique, record.modality);
     assert(metadata.description.includes(record.species));
     assert(metadata.description.includes(record.cell_type));

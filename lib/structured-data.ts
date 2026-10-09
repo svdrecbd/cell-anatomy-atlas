@@ -30,7 +30,8 @@ export function createSiteStructuredData() {
         url: `${siteOrigin}/corpus`,
         description: "Curated study records describing whole-cell imaging methods, organisms, organelles, measurements, and source publications. Imaging data availability is documented separately for each record.",
         citation: {
-          "@type": "ScholarlyArticle",
+          "@type": "CreativeWork",
+          additionalType: "https://schema.org/ScholarlyArticle",
           name: "A scoping study of the whole-cell imaging literature as a foundation for the emerging field of cell anatomy",
           url: corpusPublication,
           identifier: "https://doi.org/10.1186/s12915-026-02556-0",
@@ -64,7 +65,8 @@ export function createDatasetStructuredData(dataset: DatasetRecord) {
       url: `${siteOrigin}/corpus`
     },
     citation: {
-      "@type": "ScholarlyArticle",
+      "@type": "CreativeWork",
+      additionalType: "https://schema.org/ScholarlyArticle",
       name: dataset.paper_title,
       datePublished: String(dataset.year),
       ...(publicationUrl ? { url: publicationUrl } : {}),

@@ -32,6 +32,7 @@ for (let offset = 0; offset < records.length; offset += 4) {
     assert.equal(dataset.identifier, record.dataset_id);
     assert.equal(dataset.name, record.title);
     assert.equal(dataset.citation.name, record.paper_title);
+    assert.equal(dataset.citation["@type"], "CreativeWork");
     assert.equal(dataset.measurementTechnique, record.modality);
     assert.equal(dataset.url, `https://cellanatomy.org/datasets/${record.dataset_id}`);
     assert.equal(dataset.license, undefined);
