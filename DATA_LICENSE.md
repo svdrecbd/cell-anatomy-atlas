@@ -9,3 +9,5 @@ The article and its included supplementary material are published under Creative
 Linked microscopy data and third-party publications retain their own licenses. Inclusion of a link does not grant rights to redistribute the linked material. Institutional names, marks, and logos are not licensed by the software or corpus license.
 
 The release contains no newsletter subscriber records, outreach contact lists, private worksets, or CAOS implementation.
+
+The NIH emblem in `public/brand/nih-emblem.png` is an unmodified asset from the [official NCBI/NIH logo guidelines](https://www.ncbi.nlm.nih.gov/style-guide/basics/logo/). It is excluded from the MIT and CC BY software/data licenses. Use remains subject to NIH logo authorization.

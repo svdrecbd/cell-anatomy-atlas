@@ -153,7 +153,7 @@ export default function AboutPage() {
               </p>
             </section>
 
-            <section>
+            <section id="funding">
               <strong>Affiliation & Support</strong>
               <p className="muted" style={{ margin: "8px 0 0", lineHeight: 1.7 }}>
                 Scientific work for the corpus is tied to the{" "}
@@ -177,15 +177,21 @@ export default function AboutPage() {
                 , directed by Wallace F. Marshall.
               </p>
               <p className="muted" style={{ margin: "8px 0 0", lineHeight: 1.7 }}>
-                The underlying work was supported by the{" "}
+                This project was funded by the{" "}
                 <a
                   href="https://pbbr.ucsf.edu/"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ textDecoration: "underline" }}
                 >
-                  UCSF Sandler Program for Breakthrough Biomedical Research
-                </a>.
+                  UCSF Program for Breakthrough Biomedical Research
+                </a>, funded in part by the Sandler Foundation.
+              </p>
+              <p className="muted" style={{ margin: "8px 0 0", lineHeight: 1.7 }}>
+                Additional support was provided by the National Institute of General Medical Sciences of the National Institutes of Health under award R35GM130327.
+              </p>
+              <p className="muted" style={{ margin: "8px 0 0", lineHeight: 1.7 }}>
+                The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
               </p>
             </section>
           </div>

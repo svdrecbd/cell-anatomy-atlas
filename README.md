@@ -62,3 +62,11 @@ This project was funded by the UCSF Program for Breakthrough Biomedical Research
 This acknowledgment follows the [PBBR award policy](https://pbbr.ucsf.edu/awards/award-policies). The atlas also received support from the National Institute of General Medical Sciences of the National Institutes of Health under award R35GM130327. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
 
 The project team confirmed that both PBBR/Sandler and NIH support contributed to site expenses. NIH's current acknowledgment guidance also calls for project funding amounts and percentages where applicable; those accounting details must come from the award recipient and are not inferred from the public grant record. See https://grants.nih.gov/policy-and-compliance/policy-topics/federal-funding.
+
+## Production funding publication — October 9, 2026
+
+The approved funding footer and About acknowledgment were published to cellanatomy.org while retaining the existing 129-record corpus, application modules, newsletter collector, dataset-arrival counter, assets, and Cloudflare bindings. The gray-and-blue NIH emblem matches the height of the three funding lines; the group credit follows with a 32-pixel gap.
+
+`scripts/prepare-funding-acknowledgment-deployment.mjs` prepares the approved components against a downloaded production module directory. It identifies the reviewed footer and funding section in that baseline, preserves the rest of the application, and packages the stylesheet and emblem as versioned Worker resources. It stops when the expected baseline structure is absent. `deployment/funding-acknowledgment-worker.js` serves these resources and appends the stylesheet to rendered documents. This operator workflow is separate from the standalone build instructions above and requires authorized Cloudflare access.
+
+Validation confirmed an exactly unchanged public corpus export, local signup persistence, one counted direct arrival, retained private-path and method restrictions, correct live emblem bytes, and matching live typography and spacing. The GitHub repositories remain private pending separate publication approval.

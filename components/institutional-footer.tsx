@@ -9,8 +9,16 @@ export function InstitutionalFooter({ currentYear }: { currentYear: number }) {
         <a href="/about">About</a><span aria-hidden="true"> | </span>
         <a href="/guide">Documentation</a>
       </nav>
-      <p className="institutional-funding">This project was funded by the UCSF Program for Breakthrough Biomedical Research, funded in part by the Sandler Foundation.</p>
-      <p className="institutional-funding">Additional support: National Institute of General Medical Sciences, National Institutes of Health, award R35GM130327. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.</p>
+      <div className="institutional-funding" aria-label="Funding">
+        <a className="institutional-funding-text" href="/about#funding">
+          <strong>Funded by</strong>
+          <span>UCSF PBBR / Sandler Foundation</span>
+          <span>NIH/NIGMS R35GM130327</span>
+        </a>
+        <a className="institutional-funding-logo" href="/about#funding">
+          <img src="/brand/nih-emblem.png" alt="National Institutes of Health" width="81" height="52" />
+        </a>
+      </div>
       <small>© {currentYear} General Cell Anatomy Group<span className="institutional-motto">Ad Interiora.</span></small>
     </footer>
   );
