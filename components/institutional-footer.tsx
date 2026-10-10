@@ -15,9 +15,14 @@ export function InstitutionalFooter({ currentYear }: { currentYear: number }) {
           <span>UCSF PBBR / Sandler Foundation</span>
           <span>NIH/NIGMS R35GM130327</span>
         </a>
-        <a className="institutional-funding-logo" href="/about#funding">
-          <img src="/brand/nih-emblem.png" alt="National Institutes of Health" width="81" height="52" />
-        </a>
+        <div className="institutional-funding-logos">
+          <a className="institutional-funding-logo institutional-funding-logo-ucsf" href="/about#funding">
+            <img src="/brand/ucsf-logo.png" alt="University of California San Francisco" width="365" height="175" />
+          </a>
+          <a className="institutional-funding-logo institutional-funding-logo-nih" href="/about#funding">
+            <img src="/brand/nih-emblem.svg" alt="National Institutes of Health" width="383" height="243" />
+          </a>
+        </div>
       </div>
       <small>© {currentYear} General Cell Anatomy Group<span className="institutional-motto">Ad Interiora.</span></small>
     </footer>

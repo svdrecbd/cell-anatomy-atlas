@@ -10,4 +10,6 @@ Linked microscopy data and third-party publications retain their own licenses. I
 
 The release contains no newsletter subscriber records, outreach contact lists, private worksets, or CAOS implementation.
 
-The NIH emblem in `public/brand/nih-emblem.png` is an unmodified asset from the [official NCBI/NIH logo guidelines](https://www.ncbi.nlm.nih.gov/style-guide/basics/logo/). It is excluded from the MIT and CC BY software/data licenses. Use remains subject to NIH logo authorization.
+The NIH emblem in `public/brand/nih-emblem.svg` uses the unchanged emblem paths and colors from the vector artwork supplied by the [official NCBI/NIH logo guidelines](https://www.ncbi.nlm.nih.gov/style-guide/basics/logo/). The earlier raster asset is retained as `public/brand/nih-emblem.png`. These marks are excluded from the MIT and CC BY software/data licenses. Use remains subject to NIH logo authorization.
+
+The UCSF mark in `public/brand/ucsf-logo.png` is the unchanged official navy asset from the UCSF master logo archive linked by the [UCSF Brand Identity logo guidelines](https://identity.ucsf.edu/brand-guide/logos). It is excluded from the MIT and CC BY software/data licenses and remains subject to UCSF's brand requirements.
